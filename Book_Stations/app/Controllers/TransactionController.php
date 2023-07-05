@@ -93,4 +93,33 @@ class TransactionController extends BaseController
         $this->data["paymentArr"] = $this->payment->select('*')->where(['payment_method' => $pay])->first();
         return view('content/transaction', $this->data);
     }
+
+    public function updateCartStatus()
+    {
+        $cart_id = $this->request->getPost('cart_id');
+        $inv_id =  random_string('alnum', 20);
+        $quantity = $this->request->getPost('cart_quantity');
+
+        for ($i = 0; $i < sizeof($cart_id); $i++) {
+            $data_id = array('id' => $cart_id[$i]);
+            $this->transaction->where(['id' => $data_id])->set('status', 'paid')->update();
+            $this->transaction->where(['id' => $data_id])->set('invoice_id', "$inv_id")->update();
+        }
+        $cart_name = $this->request->getPost('cart_name');
+        $stockQty = $this->request->getPost('cart_quantity');
+        for ($i = 0; $i < sizeof($cart_name); $i++) {
+            $data_name = array('name' => $cart_name[$i]);
+            $stocks = $stockQty[$i];
+            $this->stock->where(['name' => $data_name])->set('stock', "stock - $stocks", FALSE)->update();
+        }
+
+
+        return redirect()->back();
+    }
+
+    public function delete_stock()
+    {
+        $this->stock->where(['id' => $this->request->getPost('id')])->delete();
+        return redirect()->to('store');
+    }
 }

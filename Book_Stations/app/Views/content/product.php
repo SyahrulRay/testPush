@@ -26,7 +26,7 @@
             <?php foreach ($list as $row) : ?>
                 <div class="shadow-lg rounded-lg">
                     <a href="<?= base_url('buy/display/' . $row->id) ?>">
-                        <img src="<?php echo base_url(); ?>assets/content/<?php echo $i++; ?>.jpg" alt="" class="w-full rounded-tl-lg h-3/4 rounded-tr-lg">
+                        <img src="<?php echo base_url(); ?><?= $row->imagePath ?>" alt="" class="w-full rounded-tl-lg h-3/4 rounded-tr-lg">
 
                     </a>
                     <div class="p-5">
@@ -35,7 +35,7 @@
                             <h3 class="text-gray-400 italic text-xl"><a href="#">Rp.<?= $row->price ?></a></h3>
                         </div>
                         <div class="flex flex-row justify-between my-3">
-                            <p class="text-gray-400 py-2 rounded-full shadow-md px-2"><?= $row->stock ?></p>
+                            <p min="0" class="text-gray-400 py-2 rounded-full shadow-md px-2"><?= $row->stock ?></p>
                             <a href="<?= base_url('buy/display/' . $row->id) ?>" class="bg-gradient-to-r from-green-500 to-green-700 rounded-full py-2 px-4 text-gray-50 text-sm">
                                 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" class="h-5 w-5 inline-block" viewBox="0 0 122.9 107.5" style="enable-background:new 0 0 122.9 107.5" xml:space="preserve">
                                     <g>
@@ -50,6 +50,11 @@
             <?php endforeach; ?>
         <?php } ?>
     </div>
+
 </div>
+<?php if (!session('isAdmin')) { ?>
+<?php } else { ?>
+    <a href="<?= base_url('addproduct') ?>" type="submit" class="text-center p-3 rounded-lg text-slate-200 mt-4 bg-gradient-to-r from-green-500 to-green-700 w-full active:bg-zinc-900 hover:bg-zinc-800"> Tambah Product </a>
+<?php } ?>
 </div>
 <?= $this->endSection(); ?>

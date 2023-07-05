@@ -5,7 +5,7 @@
     <div class="flex lg:flex-row w-3/4 flex-col gap-3 min-h-screen items-center lg:items-start lg:justify-between m-5">
         <div class="carousel sm:w-full sm:h-5/6 h-full w-5/6 rounded">
             <div id="slide1" class="carousel-item relative w-full">
-                <img src="<?php echo base_url() ?>assets/content/<?php echo $data['id']; ?>.jpg" class="w-full" />
+                <img src="<?php echo base_url() ?><?= $data['imagePath'] ?> " class="w-full" />
                 <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
                     <a disabled class="btn btn-circle">❮</a>
                     <a href="#slide2" class="btn btn-circle">❯</a>
@@ -38,13 +38,13 @@
                 </div>
                 <textarea <?php if (!session('isAdmin')) {
                                 echo "readonly";
-                            } ?> name="desc" id="price" class="text-lg bg-transparent  text-gray-200 h-72" placeholder="<?php echo $data['desc'] ?>"></textarea>
+                            } ?> name="desc" id="price" class="text-lg bg-transparent  text-gray-200 h-72" placeholder="<?php echo $data['desc'] ?>"><?php echo $data['desc'] ?></textarea>
                 <h3 class="text-base text-gray-200"> Stock: <?= $data['stock'] ?> </h3>
                 <label class="input-group w-full <?php if (!session('isAdmin')) {
                                                         echo "hidden";
                                                     } ?>">
-                    <span class="bg-zinc-700 text-slate-200"> + </span>
-                    <input type="number" name="stock" class=" input w-full input-bordere bg-slate-50" <?php if (session('isAdmin')) echo 'required'; ?> />
+                    <span class=" bg-gradient-to-r from-green-500 to-green-700   text-slate-200"> + </span>
+                    <input type="number" min="0" name="stock" class=" input w-full input-bordere bg-slate-50" <?php if (session('isAdmin')) echo 'required'; ?> />
                 </label>
 
             </div>
@@ -64,14 +64,18 @@
                 <div class="form-control mt-3">
                     <label class="input-group w-full">
                         <span class="bg-gradient-to-r from-green-500 to-green-700 text-slate-200">Qty</span>
-                        <input type="number" name="quantity" class="input w-full input-bordere bg-slate-50" <?php if (!session('isAdmin')) echo "required"; ?> />
+                        <input type="number" name="quantity" max="<?= $data['stock'] ?>" min="0" class="input w-full input-bordere bg-slate-50" <?php if (!session('isAdmin')) echo "required"; ?> />
                     </label>
                 </div> <?php if (!session('isAdmin')) { ?>
                     <button type="submit" class="p-3 rounded-lg text-slate-200 mt-3 bg-gradient-to-r from-green-500 to-green-700  active:bg-zinc-900 hover:bg-zinc-800 w-full"> Order Now </button>
             </div>
+        <?php } else { ?>
+            <button type="submit" class="p-3 rounded-lg text-slate-200 mt-4 bg-gradient-to-r from-green-500 to-green-700 w-full active:bg-zinc-900 hover:bg-zinc-800"> Edit Data </button>
         </form>
-    <?php } else { ?>
-        <button type="submit" class="p-3 rounded-lg text-slate-200  bg-zinc-700 active:bg-zinc-900 hover:bg-zinc-800"> Edit Data </button>
+
+        <form metode="post" method="post" action="<?= base_url(''); ?>delete_stock"">
+        <input class=" hidden" value="<?= $data['id'] ?>" name="id">
+            <button type=" submit" class="p-3 rounded-lg text-slate-200 mt-4 bg-gradient-to-r from-red-500 to-red-700 w-full active:bg-zinc-900 hover:bg-zinc-800"> Delete data </button>
         </form>
     <?php } ?>
 

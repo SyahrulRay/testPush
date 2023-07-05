@@ -8,9 +8,8 @@ use App\Models\PaymentModel;
 use App\Models\TransactionModel;
 use App\Models\UsersModel;
 use App\Models\StockModel;
-use Dompdf\Dompdf;
 
-class CartController extends BaseController
+class Cart extends BaseController
 {
     protected $data;
     protected $transaction;
@@ -32,14 +31,16 @@ class CartController extends BaseController
     {
         $arrayPending = array('user' => session("name"), 'status' => 'pending');
         $this->data["pending"] = $this->transaction->select('*')->orderBy("created_at", "DESC")->where($arrayPending)->get()->getResult();
-        return view('content/cart', $this->data);
+        echo view('/layout/header', $this->data);
+        echo view('/content/cart-view.php', $this->data);
+        echo view('/layout/footer');
     }
 
     public function history()
     {
         $arrayComplete = array('user' => session("name"), 'status' => 'paid');
         $this->data["complete"] = $this->transaction->select('*')->orderBy("created_at", "DESC")->where($arrayComplete)->get()->getResult();
-        return view('content/history', $this->data);
+        return view('/content/history', $this->data);
     }
 
     public function cancel($id = '')

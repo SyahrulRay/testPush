@@ -71,7 +71,7 @@
 
             <?php } else { ?>
                 <div class="dropdown dropdown-end">
-                    <label tabindex="0" class="m-3 cursor-pointer"><?php echo session("name") ?></label>
+                    <label tabindex="0" class="m-3 cursor-pointer mr-8"><i data-feather="user"> </i></label>
                     <ul tabindex="0" class="dropdown-content menu p-2 text-xs lg:text-sm shadow bg-slate-100 text-black rounded-box w-52">
                         <li>
                             <a href="<?= base_url('profile') ?>" class="active:bg-zinc-500"><i data-feather="user"></i>Profile</a>
